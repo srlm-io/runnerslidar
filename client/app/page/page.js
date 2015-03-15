@@ -13,7 +13,7 @@ angular
         $scope.active = false;
 
         var secondsOfRecording = 5;
-        var maxSpeed = 2;
+        var maxSpeed = 8;
 
 
         $scope.viewModel = {

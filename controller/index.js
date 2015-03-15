@@ -110,28 +110,21 @@ function startRecording() {
 var spawn = require('child_process').spawn;
 var child_process = require('child_process');
 var readline = require('readline');
-var proc = spawn('../lidar/a.out');
+var proc = spawn('/usr/share/mraa/examples/build/lidar');
 readline.createInterface({
     input: proc.stdout,
     terminal: false
 }).on('line', function (line) {
     //console.log(line);
     if (broadcast === true) {
-        var data = JSON.parse(line);
-        socket.emit('data', data);
+        try {
+            var data = JSON.parse(line);
+            socket.emit('data', data);
+        }catch(e){
+
+        }
     }
 });
-
-
-sensor.stderr.on('data', function (data) {
-    console.log(data);
-});
-
-sensor.on('close', function (code) {
-    console.log('LIDAR sensor closed: ' + code);
-});
-
-
 
 
 
