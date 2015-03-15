@@ -5,9 +5,26 @@ angular
         'btford.socket-io',
         'myApp.page'
     ])
-    .factory('socket', function (socketFactory) {
+    .factory('socket', function ($interval, socketFactory) {
         console.log('Setting up socket.io');
-        return socketFactory();
+        if (window.io) {
+            return socketFactory();
+        } else {
+            // Return a dummy object for display purposes
+            return {
+                on: function (key, callback) {
+                    var counter = 0;
+                    $interval(function () {
+                        // Generate some interesting squiggles
+                        var value = Math.sin((counter++ + Math.random()) / 10) * 0.75 + (Math.random() / 4) + 0.75;
+                        callback({
+                            time: (new Date()).getTime(),
+                            speed: value
+                        });
+                    }, 50);
+                }
+            };
+        }
     })
     .config(function ($urlRouterProvider) {
 
