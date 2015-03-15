@@ -4,8 +4,8 @@ var broadcastPeriod = 50;
 var countdownDefault = 6;
 var secondsOfRecording = 5;
 
-//var socket = require('socket.io-client')('http://hackathon.srlm.io/controller');
-var socket = require('socket.io-client')('http://localhost:8080/controller');
+var socket = require('socket.io-client')('http://hackathon.srlm.io/controller');
+//var socket = require('socket.io-client')('http://localhost:8080/controller');
 
 
 socket.on('error', function (err) {
@@ -23,10 +23,10 @@ socket.on('disconnect', function () {
 
 function broadcastData() {
     var counter = 0;
+    console.log('starting broadcast');
     return setInterval(function () {
         // Generate some interesting squiggles
         var value = Math.sin((counter++ + Math.random()) / 10) * 0.75 + (Math.random() / 4) + 0.75;
-        console.log('broadcasting...');
         socket.emit('data', {
             time: (new Date()).getTime(),
             speed: value
@@ -59,6 +59,7 @@ function startRecording() {
     var interval = setInterval(function () {
         countdown = countdown - 1;
         if (countdown !== 0) {
+            console.log('countdown ' + countdown);
             socket.emit('control', {
                 countdown: countdown,
                 active: false

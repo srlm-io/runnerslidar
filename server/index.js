@@ -27,27 +27,17 @@ server.route({
 
 
 var io = require('socket.io').listen(server.listener, {log: false});
-//io.sockets.on('connection', function (socket) {
-//    console.log('got connection!');
-//    socket.on('action', function (name, cb) {
-//        console.log('got action!');
-//    });
-//
-//    socket.on('data', function () {
-//        console.log('connection got data');
-//    });
-//
-//});
 
+var totalClients = 0;
 var clients = io.of('/client');
 clients.on('connection', function (socket) {
-    console.log('/client connected');
+    totalClients++;
+    console.log('/client connected (' + io.engine.clientsCount + '/' + totalClients + ')');
 });
 
 io.of('/controller').on('connection', function (socket) {
     console.log('/controller connected');
     socket.on('data', function (data) {
-        console.log('/controller got data');
         clients.emit('data', data);
     });
 

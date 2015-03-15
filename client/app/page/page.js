@@ -62,19 +62,21 @@ angular
 
         // Called when user clicks button (local)
         $scope.start = function () {
-            $scope.viewModel.button.countdown = 5;
+            if (onLocalhost) {
+                $scope.viewModel.button.countdown = 5;
 
-            var interval = $interval(function () {
-                $scope.viewModel.button.countdown--;
-                if ($scope.viewModel.button.countdown === 0) {
-                    $interval.cancel(interval);
-                    $scope.viewModel.button.countdown = null;
-                    $scope.active = true;
-                    $timeout(function () {
-                        $scope.active = false;
-                    }, secondsOfRecording * 1000);
-                }
-            }, 1000);
+                var interval = $interval(function () {
+                    $scope.viewModel.button.countdown--;
+                    if ($scope.viewModel.button.countdown === 0) {
+                        $interval.cancel(interval);
+                        $scope.viewModel.button.countdown = null;
+                        $scope.active = true;
+                        $timeout(function () {
+                            $scope.active = false;
+                        }, secondsOfRecording * 1000);
+                    }
+                }, 1000);
+            }
         };
 
 
