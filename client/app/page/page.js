@@ -103,7 +103,7 @@ angular
 
         var xScale = d3.time.scale()
             .domain([0, secondsOfRecording * 1000])
-            .range([0, $scope.graph.width]);
+            .range([-1, $scope.graph.width]);
 
         var yScale = d3.scale.linear()
             .domain([0, maxSpeed])
@@ -121,7 +121,7 @@ angular
 
         var startTime = null;
         socket.on('data', function (data) {
-            if ($scope.active) {
+            if ($scope.active && $scope.speed < 80) {
                 if ($scope.data.length === 0) { // Starting a new run
                     startTime = data.time;
                     $scope.viewModel.runs++;
