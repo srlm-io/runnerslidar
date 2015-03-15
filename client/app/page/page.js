@@ -33,7 +33,7 @@ angular
                 "Ready to rock it?",
                 "Great job!",
                 "Keep up the good work!",
-                "Results, not excuses!",
+                "You can do better!",
                 "Leave nothing, take everything!",
                 "Don't break stride!",
                 "Try it one more time!",

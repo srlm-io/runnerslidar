@@ -4,7 +4,7 @@ var Hapi = require('hapi');
 var Good = require('good');
 
 var server = new Hapi.Server();
-server.connection({port: 3000});
+server.connection({port: 8080});
 
 
 server.route({

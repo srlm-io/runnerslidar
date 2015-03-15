@@ -9,7 +9,7 @@ angular
         console.log('Setting up socket.io');
         if (window.io) {
             return socketFactory({
-                ioSocket: io.connect('http://localhost:3000/client')
+                ioSocket: io.connect('http://' + location.host + '/client')
             });
         } else {
             // Return a dummy object for display purposes

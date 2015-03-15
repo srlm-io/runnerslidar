@@ -1,10 +1,11 @@
 'use strict';
 
 var broadcastPeriod = 50;
-var countdownDefault = 5;
+var countdownDefault = 6;
 var secondsOfRecording = 5;
 
-var socket = require('socket.io-client')('http://localhost:3000/controller');
+//var socket = require('socket.io-client')('http://hackathon.srlm.io/controller');
+var socket = require('socket.io-client')('http://localhost:8080/controller');
 
 
 socket.on('error', function (err) {
