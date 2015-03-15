@@ -62,7 +62,7 @@ angular
 
         // Called when user clicks button (local)
         $scope.start = function () {
-            if (onLocalhost) {
+            if (!window.io) { // Run a simulation if we don't have real data.
                 $scope.viewModel.button.countdown = 5;
 
                 var interval = $interval(function () {
@@ -85,7 +85,7 @@ angular
         var element = document.getElementById('graph-area');
         $scope.graph = {
             width: element.offsetWidth, // to the containers size (roughly)
-            height: 300
+            height: 270
         };
 
         $scope.$watch('active', function (newValue, oldValue) {

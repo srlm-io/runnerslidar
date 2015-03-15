@@ -10,6 +10,14 @@
   "license": "MIT",
   "dependencies": {
     "socket.io-client": "latest",
-    "lodash": "3.X.X"
+    "lodash": "3.X.X",
+    "load-grunt-tasks": "latest",
+    "mraa": "latest"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-shell": "latest"
   }
 }
