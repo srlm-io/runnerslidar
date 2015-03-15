@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "RunnersLidar server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srlmproductions/runnerslidar"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/srlmproductions/runnerslidar/issues"
+  },
+  "homepage": "https://github.com/srlmproductions/runnerslidar",
+  "dependencies": {
+    "hapi": "latest",
+    "good": "latest",
+    "good-console": "latest",
+    "lodash": "3.X.X",
+    "socket.io":"latest"
+  }
+}

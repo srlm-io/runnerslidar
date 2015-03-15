@@ -1,0 +1,31 @@
+
+body {
+    padding-top: 70px;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-xl {
+    width: 300px;
+    height: 200px;
+}
+
+
+.timeseries {
+    fill: none;
+    stroke-width: 2.5px;
+}
+
+.timeseries.current-line {
+    stroke: red;
+    stroke-width: 3.5px;
+}
+
+.timeseries.old-line {
+    stroke: grey;
+}
+
