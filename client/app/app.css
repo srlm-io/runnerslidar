@@ -9,9 +9,14 @@ body {
     margin-right: auto;
 }
 
-.btn-xl {
+.btn-go {
     width: 300px;
     height: 200px;
+}
+
+.btn-go h1 {
+    font-size: 80pt;
+    font-weight: bold;
 }
 
 

@@ -50,7 +50,7 @@ module.exports = function (grunt) {
                     livereloadOnError: false,
                     spawn: false
                 },
-                files: [createFolderGlobs(['*.js', '*.html']), '!_SpecRunner.html', '!.grunt'],
+                files: [createFolderGlobs(['*.js', '*.html', '*.css']), '!_SpecRunner.html', '!.grunt'],
                 tasks: [] //all the tasks are run dynamically during the watch event handler
             }
         },
