@@ -1,15 +1,21 @@
 'use strict';
 
+console.log('Starting controller');
+
 var broadcastPeriod = 50;
 var countdownDefault = 6;
 var secondsOfRecording = 5;
+//---------------------------------
+var recording = false;
 
 var socket = require('socket.io-client')('http://hackathon.srlm.io/controller');
 //var socket = require('socket.io-client')('http://localhost:8080/controller');
 
+var mraa = require('mraa');
+var _ = require('lodash');
 
 socket.on('error', function (err) {
-    console.log('error: ' + err);
+    console.log('socket error: ' + err);
 });
 
 socket.on('connect', function () {
@@ -49,11 +55,15 @@ function record() {
             countdown: null,
             active: false
         });
+        recording = false;
+        console.log('done with broadcast');
 
     }, secondsOfRecording * 1000);
 }
 
 function startRecording() {
+    console.log('starting recording');
+    recording = true;
     var countdown = countdownDefault;
 
     var interval = setInterval(function () {
@@ -71,6 +81,27 @@ function startRecording() {
     }, 1000);
 }
 
-setTimeout(startRecording, 500);
+(function () {
+    var button = new mraa.Gpio(36); // GP14
+    button.dir(mraa.DIR_IN);
 
+    //button.isr(mraa.EDGE_RISING, function () {
+    //    console.log('button pressed');
+    //    if (recording === false) {
+    //        startRecording();
+    //    }
+    //});
+
+    setInterval(function () {
+        if (button.read() === 1 && recording === false) {
+            startRecording();
+        }
+    }, 100);
+
+
+})();
+
+//setTimeout(function(){
+//    startRecording();
+//}, 1000);
 
