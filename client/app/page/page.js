@@ -9,11 +9,13 @@ angular
             controller: 'PageController'
         });
     })
-    .controller('PageController', function ($scope, $interval, $timeout, socket) {
+    .controller('PageController', function ($scope, $document, $interval, $timeout, socket) {
         $scope.active = false;
 
+        var oneSecond = 1000; // Helpful speedup variable for development.
+
         var maxSpeed = 2;
-        var maxDuration = 20 * 100;
+        var maxDuration = 8 * oneSecond;
 
 
         $scope.viewModel = {
@@ -41,38 +43,44 @@ angular
             ]
         };
 
-
-        $scope.start = function () {
-            if ($scope.viewModel.graph.currentLine) {
-                $scope.viewModel.graph.oldLines.push($scope.viewModel.graph.currentLine);
+        $scope.$watch('viewModel.button.countdown', function (newValue, oldValue) {
+            if (oldValue === null && newValue !== null) {
+                // Starting countdown!
+                if ($scope.viewModel.graph.currentLine) {
+                    $scope.viewModel.graph.oldLines.push($scope.viewModel.graph.currentLine);
+                }
+                $scope.viewModel.graph.currentLine = null;
             }
-            $scope.viewModel.graph.currentLine = null;
+
+            if (newValue === null) {
+                $scope.viewModel.button.class = 'btn-success';
+            } else if (newValue > 2) {
+                $scope.viewModel.button.class = 'btn-danger';
+            } else {
+                $scope.viewModel.button.class = 'btn-warning';
+            }
+        });
+
+        // Called when user clicks button (local)
+        $scope.start = function () {
             $scope.viewModel.button.countdown = 5;
-            $scope.viewModel.button.class = 'btn-danger';
 
             var interval = $interval(function () {
                 $scope.viewModel.button.countdown--;
-
-                if ($scope.viewModel.button.countdown <= 2) {
-                    $scope.viewModel.button.class = 'btn-warning';
-                }
-
                 if ($scope.viewModel.button.countdown === 0) {
-
                     $interval.cancel(interval);
                     $scope.viewModel.button.countdown = null;
                     $scope.active = true;
-                    $scope.viewModel.button.class = 'btn-success';
                 }
-            }, 100);
+            }, oneSecond);
         };
 
 
         $scope.data = [];
 
-
+        var element = document.getElementById('graph-area');
         $scope.graph = {
-            width: 800,
+            width: element.offsetWidth, // to the containers size (roughly)
             height: 300
         };
 
@@ -126,7 +134,6 @@ angular
 
                 if (data.speed > $scope.viewModel.topSpeed) {
                     $scope.viewModel.topSpeed = data.speed;
-                    console.log('setting recentTopSpeed');
                     $scope.viewModel.recentTopSpeed = true;
                 }
 
@@ -135,4 +142,9 @@ angular
             }
             //console.log(data);
         });
+
+        //socket.on('control', function (data) {
+        //    $scope.viewModel.button.countdown = data.countdown;
+        //    $scope.active = data.active;
+        //});
     });

@@ -12,7 +12,8 @@
     "d3": "*",
     "lodash": "3.*.*",
     "angular-ui-router": "*",
-    "angular-socket-io":"latest"
+    "angular-socket-io": "latest",
+    "angular-animate": "~1.3.14"
   },
   "resolutions": {
     "angular": "~1.3.x",

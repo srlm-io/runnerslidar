@@ -34,3 +34,93 @@ body {
     stroke: grey;
 }
 
+
+/* Taken from here: http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html#how-to-make-animations-in-angularjs */
+.btn-go-animation {
+    -webkit-transition:0.5s linear all;
+    transition:0.5s linear all;
+
+    background:white;
+    padding:10px;
+    border:1px solid black;
+    color:black;
+}
+
+.btn-go-animation.disabled {
+    background:grey;
+    color:#555;
+    border-color:#555;
+}
+
+.btn-go-animation {
+    padding:10px;
+    border:1px solid black;
+}
+
+.btn-go-animation.disabled-add {
+    -webkit-animation:0.5s disable-on;
+    animation:0.5s disable-on;
+}
+
+@keyframes disable-on {
+    from {
+        background:white;
+        color:black;
+        border-color:black;
+    }
+    to {
+        background:grey;
+        color:#555;
+        border-color:#555;
+    }
+}
+
+@-webkit-keyframes disable-on {
+    from {
+        background:white;
+        color:black;
+        border-color:black;
+    }
+    to {
+        background:grey;
+        color:#555;
+        border-color:#555;
+    }
+}
+
+.btn-go-animation.disabled-remove {
+    -webkit-animation:0.5s disable-off;
+    animation:0.5s disable-off;
+}
+
+.btn-go-animation.disabled {
+    background:grey;
+    color:#555;
+    border-color:#555;
+}
+
+@keyframes disable-off {
+    from {
+        background:grey;
+        color:#555;
+        border-color:#555;
+    }
+    to {
+        background:white;
+        color:black;
+        border-color:black;
+    }
+}
+
+@-webkit-keyframes disable-off {
+    from {
+        background:grey;
+        color:#555;
+        border-color:#555;
+    }
+    to {
+        background:white;
+        color:black;
+        border-color:black;
+    }
+}

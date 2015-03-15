@@ -3,7 +3,7 @@
         <div class="text-center">
             <h1>&nbsp;<span ng-if="!active && !viewModel.button.countdown">{{viewModel.quotes[0]}}</span>&nbsp;</h1>
             <button type="button"
-                    class="btn btn-go"
+                    class="btn btn-go btn-go-animation"
                     ng-click="start()"
                     ng-class="[viewModel.button.class]"
                     ng-disabled="active">
@@ -34,7 +34,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12" id="graph-area">
         <svg ng-attr-height="{{graph.height}}" ng-attr-width="{{graph.width}}">
             <path class="timeseries old-line"
                   ng-repeat="line in viewModel.graph.oldLines"
