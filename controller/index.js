@@ -26,8 +26,9 @@ socket.on('disconnect', function () {
     console.log('Lost socket connection');
 });
 
+var broadcast = false;
 
-function broadcastData() {
+function broadcastSimulatedData() {
     var counter = 0;
     console.log('starting broadcast');
     return setInterval(function () {
@@ -46,10 +47,15 @@ function record() {
         active: true
     });
 
-    var broadcast = broadcastData();
+    broadcast = true;
+
+    var broadcastInterval = broadcastSimulatedData();  // SIMU
 
     setTimeout(function () {
-        clearInterval(broadcast);
+
+        broadcast = false;
+
+        clearInterval(broadcastInterval); // SIMU
 
         socket.emit('control', {
             countdown: null,
@@ -101,7 +107,33 @@ function startRecording() {
 
 })();
 
-//setTimeout(function(){
-//    startRecording();
-//}, 1000);
+var spawn = require('child_process').spawn;
+var child_process = require('child_process');
+var readline = require('readline');
+var proc = spawn('../lidar/a.out');
+readline.createInterface({
+    input: proc.stdout,
+    terminal: false
+}).on('line', function (line) {
+    //console.log(line);
+    if (broadcast === true) {
+        var data = JSON.parse(line);
+        socket.emit('data', data);
+    }
+});
+
+
+sensor.stderr.on('data', function (data) {
+    console.log(data);
+});
+
+sensor.on('close', function (code) {
+    console.log('LIDAR sensor closed: ' + code);
+});
+
+
+
+
+
+
 
