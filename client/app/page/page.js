@@ -12,10 +12,8 @@ angular
     .controller('PageController', function ($scope, $document, $interval, $timeout, socket) {
         $scope.active = false;
 
-        var oneSecond = 1000; // Helpful speedup variable for development.
-
+        var secondsOfRecording = 5;
         var maxSpeed = 2;
-        var maxDuration = 8 * oneSecond;
 
 
         $scope.viewModel = {
@@ -44,6 +42,7 @@ angular
         };
 
         $scope.$watch('viewModel.button.countdown', function (newValue, oldValue) {
+            console.log('viewModel.button.countdown change: ' + newValue);
             if (oldValue === null && newValue !== null) {
                 // Starting countdown!
                 if ($scope.viewModel.graph.currentLine) {
@@ -71,8 +70,11 @@ angular
                     $interval.cancel(interval);
                     $scope.viewModel.button.countdown = null;
                     $scope.active = true;
+                    $timeout(function () {
+                        $scope.active = false;
+                    }, secondsOfRecording * 1000);
                 }
-            }, oneSecond);
+            }, 1000);
         };
 
 
@@ -85,17 +87,11 @@ angular
         };
 
         $scope.$watch('active', function (newValue, oldValue) {
+            console.log('active change: ' + newValue + '/' + oldValue);
             if (newValue !== oldValue) {
                 if (newValue === true) {
-
                     $scope.data = [];
-
-                    $timeout(function () {
-                        $scope.active = false;
-
-                    }, maxDuration); // How long can the runner run?
                 } else {
-                    console.log($scope.data);
                     if ($scope.viewModel.quotes.length > 1) {
                         $scope.viewModel.quotes = $scope.viewModel.quotes.slice(1);
                     }
@@ -104,7 +100,7 @@ angular
         });
 
         var xScale = d3.time.scale()
-            .domain([0, maxDuration])
+            .domain([0, secondsOfRecording * 1000])
             .range([0, $scope.graph.width]);
 
         var yScale = d3.scale.linear()
@@ -138,13 +134,12 @@ angular
                 }
 
                 $scope.viewModel.graph.currentLine = lineGenerator($scope.data);
-
             }
-            //console.log(data);
         });
 
-        //socket.on('control', function (data) {
-        //    $scope.viewModel.button.countdown = data.countdown;
-        //    $scope.active = data.active;
-        //});
+        socket.on('control', function (data) {
+            console.log('Got control! ' + JSON.stringify(data));
+            $scope.active = data.active;
+            $scope.viewModel.button.countdown = data.countdown;
+        });
     });

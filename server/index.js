@@ -27,26 +27,49 @@ server.route({
 
 
 var io = require('socket.io').listen(server.listener, {log: false});
-io.sockets.on('connection', function (socket) {
-    console.log('got connection!');
-    socket.on('action', function (name, cb) {
-        console.log('got action!');
+//io.sockets.on('connection', function (socket) {
+//    console.log('got connection!');
+//    socket.on('action', function (name, cb) {
+//        console.log('got action!');
+//    });
+//
+//    socket.on('data', function () {
+//        console.log('connection got data');
+//    });
+//
+//});
+
+var clients = io.of('/client');
+clients.on('connection', function (socket) {
+    console.log('/client connected');
+});
+
+io.of('/controller').on('connection', function (socket) {
+    console.log('/controller connected');
+    socket.on('data', function (data) {
+        console.log('/controller got data');
+        clients.emit('data', data);
     });
+
+    socket.on('control', function (data) {
+        console.log('/controller got control ' + JSON.stringify(data));
+        clients.emit('control', data);
+    })
 });
 
 
-var counter = 0;
-
-setInterval(function () {
-
-    // Generate some interesting squiggles
-    var value = Math.sin((counter++ + Math.random()) / 10) * 0.75 + (Math.random() / 4) + 0.75;
-
-    io.sockets.emit('data', {
-        time: (new Date()).getTime(),
-        speed: value
-    });
-}, 50);
+//var counter = 0;
+//
+//setInterval(function () {
+//
+//    // Generate some interesting squiggles
+//    var value = Math.sin((counter++ + Math.random()) / 10) * 0.75 + (Math.random() / 4) + 0.75;
+//
+//    io.sockets.emit('data', {
+//        time: (new Date()).getTime(),
+//        speed: value
+//    });
+//}, 50);
 
 server.register({
     register: Good,

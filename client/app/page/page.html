@@ -3,9 +3,10 @@
         <div class="text-center">
             <h1>&nbsp;<span ng-if="!active && !viewModel.button.countdown">{{viewModel.quotes[0]}}</span>&nbsp;</h1>
             <button type="button"
+                    ng-class="[viewModel.button.class]"
                     class="btn btn-go btn-go-animation"
                     ng-click="start()"
-                    ng-class="[viewModel.button.class]"
+
                     ng-disabled="active">
                 <h1 ng-if="!viewModel.button.countdown">Go!</h1>
 
