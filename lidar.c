@@ -175,14 +175,20 @@ int main(int argc, char **argv)
   {
     blink();
 
-    current = get_distance();
+    int x;
+
+    for( x = 0; x < 5; x++ )
+    {
+      current = get_distance();
+    }
+
     diff = last - current;
     speed = diff / interval;
 
     printf("{");
-    printf("'Speed':%f,", speed);
+    printf("'speed':%f,", speed);
     printf("'time':%d, ", time(0));
-    printf("'Distance':%d", current);
+    printf("'distance':%d", current);
 //    printf("'Last':%d, ", last);
 //    printf("'Diff':%d, ", diff);
     printf("}\n");
